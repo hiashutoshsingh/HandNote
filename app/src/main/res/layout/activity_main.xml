@@ -12,23 +12,6 @@
     android:paddingTop="8dp"
     tools:context="com.bulletin.theinvincible.notemaking.MainActivity">
 
-
-    <ListView
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="10dp"
-        android:onClick="openAddNotes"
-        android:id="@+id/fabButton"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:src="@drawable/add" />
+    
 
 </LinearLayout>
