@@ -11,6 +11,8 @@ import java.util.List;
 
 import ashu.com.notes.Model.Notes;
 
+import static ashu.com.notes.Model.Notes.TABLE_NAME;
+
 public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "NOTES";
@@ -26,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + Notes.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
@@ -36,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(Notes.COLUMN_NOTE, note);
 
-        long id = db.insert(Notes.TABLE_NAME, null, values);
+        long id = db.insert(TABLE_NAME, null, values);
         db.close();
         return id;
     }
@@ -44,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public Notes getNote(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(Notes.TABLE_NAME,
+        Cursor cursor = db.query(TABLE_NAME,
                 new String[]{Notes.COLUMN_ID, Notes.COLUMN_NOTE},
                 Notes.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
@@ -64,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Notes> getAllNotes() {
         List<Notes> notes = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + Notes.TABLE_NAME + " ORDER BY " +
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " +
                 Notes.COLUMN_ID + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -87,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public int getNotesCount() {
-        String countQuery = "SELECT  * FROM " + Notes.TABLE_NAME;
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
@@ -101,13 +103,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(Notes.COLUMN_NOTE, notes.getNote());
-        return db.update(Notes.TABLE_NAME, values, Notes.COLUMN_ID + " = ?",
+        return db.update(TABLE_NAME, values, Notes.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(notes.getId())});
     }
 
     public void deleteNote(Notes notes) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Notes.TABLE_NAME, Notes.COLUMN_ID + " = ?",
+        db.delete(TABLE_NAME, Notes.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(notes.getId())});
         db.close();
     }

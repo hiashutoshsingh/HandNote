@@ -3,9 +3,11 @@ package ashu.com.notes.View;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,14 +16,23 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ashu.com.notes.DB.DBHelper;
+import ashu.com.notes.Helper.LoggedInSharedPreference;
 import ashu.com.notes.Model.Notes;
 import ashu.com.notes.R;
 import ashu.com.notes.Utils.NotesItemListener;
@@ -35,6 +46,10 @@ public class NotesFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView noNotesView;
     private DBHelper db;
+    private Button logout;
+    private String google_email_id;
+    GoogleSignInClient mGoogleSignInClient;
+
 
     public NotesFragment() {
         // Required empty public constructor
@@ -46,7 +61,17 @@ public class NotesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
         noNotesView = view.findViewById(R.id.empty_notes_view);
+        logout = view.findViewById(R.id.button_logout);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+        google_email_id = acct.getFamilyName().trim();
+        LoggedInSharedPreference.setGoogleUserId(getActivity(), google_email_id);
+//        TABLE_NAME = LoggedInSharedPreference.getGoogleUserId(getActivity());
+//        Toast.makeText(getActivity(), "table name: " + TABLE_NAME, Toast.LENGTH_SHORT).show();
         db = new DBHelper(getActivity());
         notesList.addAll(db.getAllNotes());
 
@@ -77,6 +102,32 @@ public class NotesFragment extends Fragment {
                 showActionsDialog(position);
             }
         }));
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (LoggedInSharedPreference.getLoggedInStatus(getActivity())) {
+
+                                    LoggedInSharedPreference.setLoggedInStatus(getActivity(), false);
+                                    LoggedInSharedPreference.setGoogleUserId(getActivity(), "");
+                                    Fragment someFragment = new LoginFragment();
+                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.frameLayout, someFragment);
+                                    transaction.addToBackStack(null);
+                                    Toast.makeText(getActivity(), "Logged out!", Toast.LENGTH_SHORT).show();
+                                    transaction.commit();
+
+                                } else
+                                    Toast.makeText(getActivity(), "Please Login Again!", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+            }
+        });
 
         return view;
     }

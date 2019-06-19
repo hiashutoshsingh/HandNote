@@ -1,10 +1,14 @@
 package ashu.com.notes.Model;
 
-public class Notes {
+import android.content.Context;
 
-    public static final String TABLE_NAME = "notes";
+public class Notes {
+    private Context context;
+
+
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NOTE = "note";
+    public static final String TABLE_NAME = "notes";
     private int id;
     private String note;
 
