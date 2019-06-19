@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">HandNote</string>
+    <string name="app_name">Notes</string>
+    <string name="action_logout">Logout</string>
+    <string name="activity_title_home">Notes</string>
+    <string name="first_notes">Add your Notes</string>
+    <string name="new_note">New Note</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="enter_note">Enter your note!</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="app_note">Note Making App</string>
 </resources>

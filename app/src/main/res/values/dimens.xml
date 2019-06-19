@@ -1,5 +1,14 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="no_notes">26sp</dimen>
+    <dimen name="add_notes">120dp</dimen>
+    <dimen name="lbl_new_note_title">20sp</dimen>
+    <dimen name="dimen_10">10dp</dimen>
+    <dimen name="dimen_20">10dp</dimen>
+    <dimen name="input_new_note">20sp</dimen>
+    <dimen name="dot_height">30dp</dimen>
+    <dimen name="dot_text_size">40sp</dimen>
+    <dimen name="note_list_text">20sp</dimen>
+    <dimen name="note_app">30sp</dimen>
 </resources>
