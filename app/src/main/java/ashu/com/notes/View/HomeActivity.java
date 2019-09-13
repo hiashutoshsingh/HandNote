@@ -1,10 +1,11 @@
 package ashu.com.notes.View;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -39,12 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         transaction = manager.beginTransaction();
 
 
-        if (LoggedInSharedPreference.getLoggedInStatus(getApplicationContext())) {
-            transaction.add(R.id.frameLayout, notesFragment, "notes_frag").commit();
+        transaction.add(R.id.frameLayout, notesFragment, "notes_frag").commit();
 
-        } else {
-            transaction.add(R.id.frameLayout, loginFragment, "login_frag").commit();
-        }
     }
 
 

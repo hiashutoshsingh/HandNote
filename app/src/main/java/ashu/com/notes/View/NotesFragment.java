@@ -3,15 +3,15 @@ package ashu.com.notes.View;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,15 +67,15 @@ public class NotesFragment extends Fragment {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
-        google_email_id = acct.getFamilyName().trim();
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+//        google_email_id = acct.getFamilyName().trim();
         LoggedInSharedPreference.setGoogleUserId(getActivity(), google_email_id);
 //        TABLE_NAME = LoggedInSharedPreference.getGoogleUserId(getActivity());
 //        Toast.makeText(getActivity(), "table name: " + TABLE_NAME, Toast.LENGTH_SHORT).show();
         db = new DBHelper(getActivity());
         notesList.addAll(db.getAllNotes());
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +163,7 @@ public class NotesFragment extends Fragment {
     }
 
     private void showActionsDialog(final int position) {
-        CharSequence charSequences[] = new CharSequence[]{"Edit", "Delete"};
+        CharSequence[] charSequences = new CharSequence[]{"Edit", "Delete"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select");
